@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  db:
+    image: sqlite3:latest
+    # sqlite included in backend; no external DB required for demo
+  backend:
+    build: ./backend
+    ports:
+      - "4000:4000"
+    environment:
+      - NODE_ENV=development
+      - ACCESS_TOKEN_SECRET=change_me
+      - REFRESH_TOKEN_SECRET=change_refresh
+    volumes:
+      - ./backend:/usr/src/app
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:4173"
+    environment:
+      - VITE_API_URL=http://localhost:4000/api
+    volumes:
+      - ./frontend:/usr/src/app
